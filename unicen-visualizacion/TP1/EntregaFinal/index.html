@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Ejercicio Entregable 2 - Sebastián Nieto</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <link href="css/hover.css" rel="stylesheet" media="all">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar 
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Bootstrap theme</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>  
+      </div>
+    </nav> nav-collapse -->
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="row-fluid header">
+      <div class="col-lg-12 text-center"><a href="#"><img height="70" src="img/logo.png" alt="filtrify logo"/></a></div>
+      	<div class="col-lg-12">
+
+      		<div class="row">
+            <div class="col-lg-12 text-center"> 
+            <div class="col-lg-4"></div>
+            <div id="dropdown" class="col-lg-4 hvr-grow ">
+              <h4 id="callToAction"> Click to upload your image</h4>
+              <h1><span id="upload" class="glyphicon glyphicon-open hvr-bob" aria-hidden="true"></span></h1>
+
+              <input name="file-input" id="file-input" type="file" />
+            </div>
+              <div class="col-lg-4"></div>
+            </div>
+         </div>
+        </div>
+      </div>
+         <div class="row">
+         <div class="col-lg-12 spacer"></div>
+         <div class="col-lg-12 spacer"></div>
+         </div>
+         <div id="chooseFilter" class="row parallax">
+          <div class="col-lg-12 hide text-center">
+
+            <h3><span id="upload" class="glyphicon glyphicon-filter" aria-hidden="true"></span> Choose a filter</h3>
+            <div class="col-lg-12 spacer"></div>
+             <div class="col-lg-2 hide">
+            <canvas id="canvasByN" width="150" height="113" style="border:#333 solid 1px;" />
+            </div>
+            <div class="col-lg-2 hide">
+            <canvas id="canvasNeg" width="150" height="113" style="border:#333 solid 1px;" />
+            </div>
+            <div class="col-lg-2 hide">
+            <div class="col-lg-12">
+            <canvas id="canvasBright" width="150" height="113" style="border:#333 solid 1px;" />
+            </div>
+            <div class="col-lg-12">
+            <input class="hide" id="sliderBrillo" type="range" min="-255" max="255" value="0" step="1" />
+            </div>
+            </div>
+            <div class="col-lg-2 hide">
+            <div class="col-lg-12">
+            <canvas id="canvasBin" width="150" height="113" style="border:#333 solid 1px;" />
+            </div>
+            <div class="col-lg-12">
+            <input class="hide" id="sliderBinarizacion" type="range" min="0" max="255" value="0" step="1" />
+            </div>
+            </div>
+            <div class="col-lg-2 hide">
+            <canvas id="canvasSep" width="150" height="113" style="border:#333 solid 1px;" />
+            </div>
+          
+          </div>
+         </div>
+            <div class="col-lg-2 hide"></div>
+      			<div class="col-lg-4 hide text-center">
+              
+      				<h3 id="showroom"> Your image before</h3><br>
+      				<canvas id="canvasBefore" />
+      			</div>
+      			<div class="col-lg-4 hide text-center">
+      				<h3> After </h3><br>
+      				<canvas id="canvasAfter" />
+      			</div>
+            <div class="col-lg-2 hide"></div>
+            <div id="finalCanvas" class="col-lg-12">
+              <h3> Final: </h3><br>
+              <canvas id="canvasFinal" />
+            </div>
+            <div class="col-lg-6"></div>
+            <div id="downloadCallToAction" class="col-lg-12 hide text-center"><h4> Like it?&nbsp;&nbsp;</span><a id="saveJpg" download="untitled1.jpg" ><input value="Download!" id="saveBtn" class="btn btn-primary" type="button" onclick="download()"/></a></h4></div>
+      	
+      	</div>
+      </div>
+      <div class="row-fluid">
+      <div class="col-lg-12 text-center footer"><h6>All rights reserved. Filtrify 2016.</h6></div>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/filtrify.js"></script>
+  </body>
+</html>
