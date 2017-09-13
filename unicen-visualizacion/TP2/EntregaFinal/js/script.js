@@ -28,13 +28,13 @@ function Circle(id, paramPosX, paramPosY, paramRadio, paramColor){
   this.radio = paramRadio;
   this.color = paramColor;
 }
-function Rectangle(id, paramPosX, paramPosY, paramWidth, paramHeight){
+function Rectangle(id, paramPosX, paramPosY, paramWidth, paramHeight, paramColor){
   this.id = id;
   this.posX = paramPosX;
   this.posY = paramPosY;
   this.width = paramWidth;
   this.height = paramHeight;
-  this.color = 'brown';
+  this.color = paramColor;
 }
 
 Circle.prototype.draw = function(){
@@ -45,16 +45,21 @@ Circle.prototype.draw = function(){
     ctx.closePath();
 }
 Rectangle.prototype.draw = function(){
-    ctx.fillStyle = 'brown';
+    ctx.fillStyle = this.color;
     ctx.fillRect(this.posX,this.posY, this.width, this.height);
     
 }
 
+/*var rectangulo = new Rectangle(222,0,0,200,75);
+rectangulo.draw();*/
 
 function createShapes(){
+  var posY = 280;
   for(i=0; i<CANT_FICHAS;i++){
-    var c1 = new Circle(i,150,150,50,randomColor());
-    figuras.push(c1);
+    //var c1 = new Circle(i,150,150,50,randomColor());
+    var r1 = new Rectangle(i,115,posY,70,20,randomColor());
+    posY-=21;
+    figuras.push(r1);
   }
 }
 
@@ -64,20 +69,18 @@ function drawShapes(){
   });
 }
 
-    var base1 = new Rectangle(0,75,300,150,15);
-    base1.draw();
 function createTowers(){ 
 
-    var r1 = new Rectangle(1,135,150,35,150);
-    var base1 = new Rectangle(0,75,300,150,15);
+    var r1 = new Rectangle(1,135,150,35,150,'brown');
+    var base1 = new Rectangle(0,75,300,150,15,'brown');
     var t1 = new Tower(1,r1,base1);
     towers.push(t1); 
-    var r2 = new Rectangle(1,335,150,35,150);
-    var base2 = new Rectangle(0,275,300,150,15);
+    var r2 = new Rectangle(1,335,150,35,150,'brown');
+    var base2 = new Rectangle(0,275,300,150,15,'brown');
     var t2 = new Tower(1,r2,base2);
     towers.push(t2); 
-    var r3 = new Rectangle(1,535,150,35,150);
-    var base3 = new Rectangle(0,475,300,150,15);
+    var r3 = new Rectangle(1,535,150,35,150,'brown');
+    var base3 = new Rectangle(0,475,300,150,15,'brown');
     var t3 = new Tower(1,r3,base3);
     towers.push(t3); 
 
@@ -108,8 +111,10 @@ function drawTowers(){
   figuras.push(c1);
   figuras.push(c2);*/
 function identifyShape(figura,cX,cY){
-  d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
-  if(d1<figura.radio) return true;
+  //d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
+  if( (cX>=figura.posX) && (cX<=(figura.posX+figura.width))
+
+    && (cY>=figura.posY) && (cY<=(figura.posY+figura.height)) ) return true;
   else return false;
 }
 
@@ -123,9 +128,10 @@ function mousedown (e){ //calculo d1
   figuras.forEach(function(figura){
     if(identifyShape(figura,cX,cY)){
       figureId = figura.id;
-      d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
+      //d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
+      
       flag = 1;
-      draggedFigure = figura;
+      draggedFigure = figura; 
     }
     
   });
@@ -153,8 +159,8 @@ function mousemove (e){
   if (flag ==1){
     var cX = e.clientX;
     var cY = e.clientY;
-    draggedFigure.posX = cX;
-    draggedFigure.posY = cY;
+    draggedFigure.posX = cX-draggedFigure.width/2;
+    draggedFigure.posY = cY-draggedFigure.height/2;
     ctx.clearRect(0, 0, c.width, c.height);
     drawTowers(); 
     drawShapes();   
