@@ -1,18 +1,21 @@
 document.getElementById("canvas").addEventListener("mousedown", mousedown);
 document.getElementById("canvas").addEventListener("mousemove", mousemove);
 document.getElementById("canvas").addEventListener("mouseup", mouseup);
-document.getElementById("canvas").addEventListener("mouseleave", mouseleave);
+document.getElementById("canvas").addEventListener("mouseleave", mouseup  );
 
-var flag = 0;
+var dragging = 0;
 var CANT_FICHAS = 6;
-var figuras = new Array(CANT_FICHAS);
+var Shapes = new Array(CANT_FICHAS);
 var d1;
 var figureId;
+var figureWidth = 120;
 var c = document.getElementById("canvas");
 //c.style.cursor="crosshair";
 var ctx = c.getContext("2d");
 var draggedFigure = null;
 var towers = new Array();
+var lastPosX = 0;
+var lastPosY = 0;
 
 function Tower(id, r1, base1){
   this.id = id;
@@ -30,6 +33,7 @@ function Circle(id, paramPosX, paramPosY, paramRadio, paramColor){
 }
 function Rectangle(id, paramPosX, paramPosY, paramWidth, paramHeight, paramColor){
   this.id = id;
+  this.draggeable = false;
   this.posX = paramPosX;
   this.posY = paramPosY;
   this.width = paramWidth;
@@ -55,18 +59,23 @@ rectangulo.draw();*/
 
 function createShapes(){
   var posY = 280;
+  var dif = 10;
+  var posX = (towers[1].base.width)*0.65;
   for(i=0; i<CANT_FICHAS;i++){
     //var c1 = new Circle(i,150,150,50,randomColor());
-    var r1 = new Rectangle(i,115,posY,70,20,randomColor());
+    var r1 = new Rectangle(i,posX,posY,figureWidth-dif,20,randomColor());
     posY-=21;
-    figuras.push(r1);
+    Shapes.push(r1);
+    figureWidth-= dif;
+    posX+=dif/2;
   }
+
 }
 
 function drawShapes(){
-   figuras.forEach(function(figura){
-    figura.draw();
-  });
+   Shapes.forEach(function(Shape){
+    Shape.draw();
+  });  
 }
 
 function createTowers(){ 
@@ -84,8 +93,8 @@ function createTowers(){
     var t3 = new Tower(1,r3,base3);
     towers.push(t3); 
 
-    figuras.forEach(function(figura){
-     towers[1].elements.push(figura);
+    Shapes.forEach(function(Shape){
+     towers[1].elements.push(Shape);
     });
 }
 
@@ -97,24 +106,24 @@ function drawTowers(){
 }
 
 
- /* figuras.forEach(function(figura){
-  if(identifyShape(figura,cX,cY)){
-    figureId = figura.id;
-    d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
-    flag = 1;
-    draggedFigure = figura;
+ /* Shapes.forEach(function(Shape){
+  if(identifyShape(Shape,cX,cY)){
+    figureId = Shape.id;
+    d1 = Math.sqrt( ( Math.pow((cX-Shape.posX),2) + Math.pow((cY - Shape.posY),2) ) );
+    dragging = 1;
+    draggedFigure = Shape;
   }
     
   });
   var c1 = new Circle(1,200,300,50, randomColor());
   var c2 = new Circle(2,400,300,50, randomColor());
-  figuras.push(c1);
-  figuras.push(c2);*/
-function identifyShape(figura,cX,cY){
-  //d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
-  if( (cX>=figura.posX) && (cX<=(figura.posX+figura.width))
+  Shapes.push(c1);
+  Shapes.push(c2);*/
+function identifyShape(Shape,cX,cY){
+  //d1 = Math.sqrt( ( Math.pow((cX-Shape.posX),2) + Math.pow((cY - Shape.posY),2) ) );
+  if( (cX>=Shape.posX) && (cX<=(Shape.posX+Shape.width))
 
-    && (cY>=figura.posY) && (cY<=(figura.posY+figura.height)) ) return true;
+    && (cY>=Shape.posY) && (cY<=(Shape.posY+Shape.height)) ) return true;
   else return false;
 }
 
@@ -124,14 +133,16 @@ function mousedown (e){ //calculo d1
   var cX = e.clientX;
   var cY = e.clientY;
   //alert('c1: ' + c1.posX + ", " + c1.posY);
-
-  figuras.forEach(function(figura){
-    if(identifyShape(figura,cX,cY)){
-      figureId = figura.id;
-      //d1 = Math.sqrt( ( Math.pow((cX-figura.posX),2) + Math.pow((cY - figura.posY),2) ) );
-      
-      flag = 1;
-      draggedFigure = figura; 
+  Shapes.forEach(function(Shape){
+    if(identifyShape(Shape,cX,cY)){
+      figureId = Shape.id;
+      //d1 = Math.sqrt( ( Math.pow((cX-Shape.posX),2) + Math.pow((cY - Shape.posY),2) ) );
+      if(Shape.draggeable){
+        dragging = 1;
+        draggedFigure = Shape;
+        lastPosX = draggedFigure.posX;
+        lastPosY = draggedFigure.posY;
+      } 
     }
     
   });
@@ -141,34 +152,46 @@ function mousedown (e){ //calculo d1
 };
 
 function mouseup (e){
-  if (flag ==1){
-    flag = 0;
+    dragging = 0;
     //console.log("Ahora c1 está en: x: " + c1.posX + ", y: " + c1.posY );
-    draggedFigure = null;
-  }
-}
-function mouseleave (e){
-  if (flag ==1){
-    flag = 0;
-    //console.log("Ahora c1 está en: x: " + c1.posX + ", y: " + c1.posY );
-    draggedFigure = null;
-  }
+    if (draggedFigure!=null){
+      draggedFigure.posX = lastPosX;
+      draggedFigure.posY = lastPosY;
+      lastPosX = 0;
+      lastPosY = 0;
+      console.log('lastPosX: ' + lastPosX + ', lastPosY: ' + lastPosY);
+      draggedFigure.draggeable = false;
+      draggedFigure = null;
+      ctx.clearRect(0, 0, c.width, c.height);
+      drawTowers(); 
+      drawShapes();      
+    }
 }
 
 function mousemove (e){
-  if (flag ==1){
+  if (dragging ==1){
     var cX = e.clientX;
     var cY = e.clientY;
     draggedFigure.posX = cX-draggedFigure.width/2;
     draggedFigure.posY = cY-draggedFigure.height/2;
+    console.log('lastPosX: ' + lastPosX + ', lastPosY: ' + lastPosY);
     ctx.clearRect(0, 0, c.width, c.height);
     drawTowers(); 
     drawShapes();   
-    
   }
 }
-
-
+/*
+function checkDraggeable(){
+  var i = 0;
+  var ItsFirstOne = true;
+  while(i<Shapes.length && Shapes[i]== null){
+    i++;
+  }
+  if ((Shapes[i] != null) && (Shapes[i]<Shapes.length)){
+    Shapes[i].draggeable=true;
+    ItsFirstOne = false;
+  }
+}*/
 
 function random(){
   return Math.floor((Math.random() * 50) + 1);;
@@ -180,11 +203,15 @@ function randomColor(){
 function randomRGB(){
   return Math.floor((Math.random() * 256) + 1);;
 }
-createTowers();
-drawTowers();
+function startGame(){
+  createTowers();
+  drawTowers();
+  createShapes();
+  drawShapes();
+  Shapes[Shapes.length-1].draggeable=true;
+}
+startGame();
 
-createShapes();
-drawShapes();
 
 
 
