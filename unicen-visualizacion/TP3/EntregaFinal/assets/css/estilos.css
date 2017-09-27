@@ -33,3 +33,20 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+div.navbar-header h3 {
+    color: black;
+}
+
+h4.subtitulos{
+    color: black;
+}
+ul.beer-list li{
+    list-style: none;
+}
+.nav>li>a:hover, .nav>li>a:focus{
+    color: black;
+}
+h3.redes{
+    color:white !important;
+}

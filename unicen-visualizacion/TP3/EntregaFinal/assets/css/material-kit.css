@@ -1605,7 +1605,7 @@ legend {
     margin-top: 15px;
     margin-bottom: 15px; }
   .navbar .navbar-nav > li > a {
-    color: inherit;
+    color: white;
     padding-top: 15px;
     padding-bottom: 15px;
     font-weight: 400;
