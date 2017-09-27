@@ -1,0 +1,9 @@
+Fonts used in this design;
+
+Font: Alfa Slab,
+Author: JM Solé,
+Url: http://www.fontsquirrel.com/fonts/alfa-slab;
+
+Font: Lobster Two,
+Author: Impallari Type,
+Url: http://www.fontsquirrel.com/fonts/lobster-two;
