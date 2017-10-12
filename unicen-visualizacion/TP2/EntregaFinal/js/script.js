@@ -4,7 +4,7 @@ document.getElementById("canvas").addEventListener("mouseup", mouseup);
 document.getElementById("canvas").addEventListener("mouseleave", mouseup  );
 
 var dragging = 0;
-var CANT_FICHAS = 5;
+var CANT_FICHAS = 3;
 var d1;
 var shapeId;
 var shapeWidth = 120;
@@ -184,6 +184,10 @@ function mouseup (e){
       drawTowers();  
       lastPosX = 0;
       lastPosY = 0;
+      if (towers[2].elements.length == CANT_FICHAS){
+        if (checkWinner()) alert('Ganaste!');
+        else alert('Piezas mal ordenadas');
+      }
 
     }
 
@@ -241,6 +245,17 @@ for (i=0; i<3;i++){
   console.log("TowerHeight: " + towers[i].towerHeight);
 };
   
+}
+
+function checkWinner(){
+  var winner = false;
+  for (i=0; i<towers[2].elements.length-1; i++){
+      if ((towers[2].elements[i].id)>(towers[2].elements[i].id+1)) {
+        winner = true;
+      }
+      else winner = false;
+  }
+  return winner;
 }
 
 startGame();
