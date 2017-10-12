@@ -22,7 +22,7 @@ function Tower(id, height, base){
   this.elements = new Array();
   this.height = height; //guardo el objeto rectángulo del palo
   this.base = base; //guardo el objeto rectángulo de la base
-  this.towerHeight = -20;
+  this.towerHeight = 0;
   this.shapesPosX = 20;
 }
 
@@ -42,44 +42,27 @@ Rectangle.prototype.draw = function(){
     
 }
 Tower.prototype.createShapes = function(){
-  var posY = this.base.posY - this.base.height;
+  var posY = this.base.posY - shapeHeight;
   var dif = 10;
   var posX = this.height.posX+( (this.height.width/2) - shapeWidth/2) ;
   var newShapeWidth = shapeWidth;
   for(i=0; i<CANT_FICHAS;i++){
     var singleShape = new Rectangle(i,posX,posY,newShapeWidth,shapeHeight,randomColor());
-    posY-=25;
+    posY-= shapeHeight;
     this.elements.push(singleShape);
     this.towerHeight += shapeHeight;
+
     newShapeWidth-= dif;
     posX+=dif/2;
   }
 }
 
 Tower.prototype.drawShapes = function(){
-  //var posY = this.base.posY - this.base.height;
-  //var dif = 10;
-  //var posX = this.height.posX+( (this.height.width/2) - shapeWidth/2) ;
-  //var newShapeWidth = shapeWidth;
   this.elements.forEach(function(shape){
-    //shape.posX = posX;
-    //shape.posY = posY;
     shape.draw();
     shape.draggeable = false;
-    //posY-=25;
-    //shape.width-= dif;
-    //posX+=dif/2;
-    
+
   });       
-  /*
-   var i = this.elements.length-1;
-   while ( (i>0) && (this.elements[i] == null)){
-    i--;
-   }
-   if (i>=0){
-    this.elements[i].draggeable=true;    
-   }
-   */
    this.onlyLastDraggeable();
 }
 
@@ -148,12 +131,9 @@ function identifyShape(shape,cX,cY){ //identifica si se clickeó un rectángulo
   else return false;
 }
 
-function mousedown (e){ //calculo d1
-  //console.log("click en x: " + cX + ", y: " + cY);
-  //console.log("c1 está en: x: " + c1.posX + ", y: " + c1.posY );
+function mousedown (e){ 
   var cX = e.clientX;
   var cY = e.clientY;
-  //alert('c1: ' + c1.posX + ", " + c1.posY);
   var i;
   for (i=0; i<3;i++){
     towers[i].elements.forEach(function(shape){
@@ -174,43 +154,40 @@ function mouseup (e){
     var cX = e.clientX;
     var cY = e.clientY;
     dragging = 0;
-    var i;
+
     if (draggedShape!=null){
-      if ( identifyShape(towers[1].height,cX, cY)) {
+      var i =0;
+      while (i<3 && !(identifyShape(towers[i].height,cX, cY))) {
+        i++;
+      }
+      if (i<3 && (identifyShape(towers[i].height,cX, cY))){
         removeShapeFromPreviousTower();
-        towers[1].elements.push(draggedShape);
-        towers[1].towerHeight += shapeHeight;
-        draggedShape.posX = towers[1].height.posX+( (towers[1].height.width/2) - shapeWidth/2);
-        draggedShape.posY = (towers[1].base.posY - towers[1].base.height);
+        towers[i].elements.push(draggedShape);
+        draggedShape.posY = (towers[i].base.posY - towers[i].towerHeight);
+        draggedShape.posX = towers[i].height.posX+( (towers[i].height.width/2) - shapeWidth/3);   
 
         // Cuando suelto la ficha, que se acomode según la altura de la torre
-        if (towers[1].elements[towers[1].elements.length-1] != null){ //chequeo que la torre no esté vacía
-          draggedShape.posY -= towers[1].towerHeight;
+        if (towers[i].elements[towers[i].elements.length-1] != null){ //chequeo que la torre no esté vacía
+          draggedShape.posY -= shapeHeight;
           // Espacio entre fichas
-          towers[1].towerHeight += 5;
           // Acomodo la posX de la nueva ficha insertada
-          draggedShape.posX += (towers[1].shapesPosX);
-          towers[1].shapesPosX -= towers[1].elements[towers[1].elements.length-1].width/16;
+          towers[i].shapesPosX -= towers[i].elements[towers[i].elements.length-1].width/16;
         }
-
-        lastPosX = 0;
-        lastPosY = 0;
-      }
-      else {
-        // Si no se puede, vuelve a su lugar
+        towers[i].towerHeight += shapeHeight;
+        updateConsole();  
+      } else {
         draggedShape.posX = lastPosX; 
         draggedShape.posY = lastPosY;
-        // Reseteo lastPosx e y
-        lastPosX = 0;
-        lastPosY = 0;
-        console.log('lastPosX: ' + lastPosX + ', lastPosY: ' + lastPosY);
-        // "Suelto" la ficha que dragueaba
       }
       draggedShape = null;
       ctx.clearRect(0, 0, c.width, c.height);
       drawTowers();  
-      updateConsole();  
+      lastPosX = 0;
+      lastPosY = 0;
+
     }
+
+
     
 }
 
@@ -220,7 +197,6 @@ function mousemove (e){
   if (dragging ==1){
     draggedShape.posX = cX-draggedShape.width/2;
     draggedShape.posY = cY-draggedShape.height/2;
-    console.log('lastPosX: ' + lastPosX + ', lastPosY: ' + lastPosY);
     ctx.clearRect(0, 0, c.width, c.height);
     drawTowers();
   }
@@ -258,7 +234,7 @@ for (i=0; i<3;i++){
   else{
     console.log("cant de fichas: " + towers[i].elements.length);
     towers[i].elements.forEach(function(shape){
-      console.log("Shape: " + shape.id + ' - Draggueable: ' + shape.draggeable);
+    console.log("Shape: " + shape.id + ' - Draggueable: ' + shape.draggeable);
     });
 
   }
