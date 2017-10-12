@@ -1,0 +1,58 @@
+canvas{
+	background-color: #EEE;
+}
+.contenedor{
+	position: relative;
+}
+div.error{
+	position:fixed;
+	background-color:red;
+	color: white;
+	font-size: 18px;
+	padding: 15px;
+	text-align: center;
+	bottom: 500px;
+	left: 50px;
+	-webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+     opacity: 1;
+	-webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+div.win{
+	position:fixed;
+	background-color:green;
+	color: white;
+	font-size: 18px;
+	padding: 15px;
+	text-align: center;
+	bottom: 500px;
+	left: 50px;
+	-webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+     opacity: 1;
+	-webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+div.hidden{
+	position:fixed;
+	background-color:none;
+	color: white;
+	font-size: 18px;
+	padding: 15px;
+	text-align: center;
+	bottom: 600px;
+	left: 50px;
+	-webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -ms-transition: opacity 1s;
+    -o-transition: opacity 1s;
+     opacity: 0;
+	-webkit-transition: 1s;
+    transition: 1s;	
+}

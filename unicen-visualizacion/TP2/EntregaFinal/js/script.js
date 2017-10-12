@@ -3,6 +3,10 @@ document.getElementById("canvas").addEventListener("mousemove", mousemove);
 document.getElementById("canvas").addEventListener("mouseup", mouseup);
 document.getElementById("canvas").addEventListener("mouseleave", mouseup  );
 
+var win = new Audio('sfx/win.mp3');
+var wrong = new Audio('sfx/wrong.mp3');
+var shapeHit = new Audio('sfx/shapeHit.wav');
+
 var dragging = 0;
 var CANT_FICHAS = 3;
 var d1;
@@ -10,7 +14,6 @@ var shapeId;
 var shapeWidth = 120;
 var shapeHeight = 20;
 var c = document.getElementById("canvas");
-//c.style.cursor="crosshair";
 var ctx = c.getContext("2d");
 var draggedShape = null;
 var towers = new Array();
@@ -164,6 +167,7 @@ function mouseup (e){
         if (i<3 && (identifyShape(towers[i].height,cX, cY))){
           if (checkOrdenPieza(i)){
               removeShapeFromPreviousTower();
+              shapeHit.play();
               towers[i].elements.push(draggedShape);
               draggedShape.posY = (towers[i].base.posY - towers[i].towerHeight);
               draggedShape.posX = towers[i].height.posX+( (towers[i].height.width/2) - shapeWidth/3);   
@@ -178,7 +182,13 @@ function mouseup (e){
               towers[i].towerHeight += shapeHeight;
               updateConsole();  
           } else{
-            alert('La pieza a colocar no puede ser de mayor tamaño que la de la torre');
+            wrong.play();
+            document.getElementById('message').className = "error";
+            document.getElementById('message').innerHTML = "La pieza a colocar no puede ser de mayor tamaño que la de la torre";
+            setTimeout(function(){ 
+              document.getElementById('message').className = "hidden";
+            }, 2000);
+            //alert('La pieza a colocar no puede ser de mayor tamaño que la de la torre');
             draggedShape.posX = lastPosX; 
             draggedShape.posY = lastPosY;
             }
@@ -194,8 +204,14 @@ function mouseup (e){
       lastPosX = 0;
       lastPosY = 0;
       if (towers[2].elements.length == CANT_FICHAS){
-        if (checkWinner()) alert('Ganaste!');
-        else alert('Piezas mal ordenadas');
+        if (checkWinner()){
+            document.getElementById('message').className = "win";
+            win.play();
+            document.getElementById('message').innerHTML = "¡Ganaste el juego!";
+            setTimeout(function(){ 
+              document.getElementById('message').className = "hidden";
+            }, 2000);
+        }
       }
 
     }
