@@ -160,25 +160,34 @@ function mouseup (e){
       while (i<3 && !(identifyShape(towers[i].height,cX, cY))) {
         i++;
       }
-      if (i<3 && (identifyShape(towers[i].height,cX, cY))){
-        removeShapeFromPreviousTower();
-        towers[i].elements.push(draggedShape);
-        draggedShape.posY = (towers[i].base.posY - towers[i].towerHeight);
-        draggedShape.posX = towers[i].height.posX+( (towers[i].height.width/2) - shapeWidth/3);   
+      
+        if (i<3 && (identifyShape(towers[i].height,cX, cY))){
+          if (checkOrdenPieza(i)){
+              removeShapeFromPreviousTower();
+              towers[i].elements.push(draggedShape);
+              draggedShape.posY = (towers[i].base.posY - towers[i].towerHeight);
+              draggedShape.posX = towers[i].height.posX+( (towers[i].height.width/2) - shapeWidth/3);   
 
-        // Cuando suelto la ficha, que se acomode según la altura de la torre
-        if (towers[i].elements[towers[i].elements.length-1] != null){ //chequeo que la torre no esté vacía
-          draggedShape.posY -= shapeHeight;
-          // Espacio entre fichas
-          // Acomodo la posX de la nueva ficha insertada
-          towers[i].shapesPosX -= towers[i].elements[towers[i].elements.length-1].width/16;
+              // Cuando suelto la ficha, que se acomode según la altura de la torre
+              if (towers[i].elements[towers[i].elements.length-1] != null){ //chequeo que la torre no esté vacía
+                draggedShape.posY -= shapeHeight;
+                // Espacio entre fichas
+                // Acomodo la posX de la nueva ficha insertada
+                towers[i].shapesPosX -= towers[i].elements[towers[i].elements.length-1].width/16;
+              }
+              towers[i].towerHeight += shapeHeight;
+              updateConsole();  
+          } else{
+            alert('La pieza a colocar no puede ser de mayor tamaño que la de la torre');
+            draggedShape.posX = lastPosX; 
+            draggedShape.posY = lastPosY;
+            }
+        } else {
+            draggedShape.posX = lastPosX; 
+            draggedShape.posY = lastPosY;
+
         }
-        towers[i].towerHeight += shapeHeight;
-        updateConsole();  
-      } else {
-        draggedShape.posX = lastPosX; 
-        draggedShape.posY = lastPosY;
-      }
+      
       draggedShape = null;
       ctx.clearRect(0, 0, c.width, c.height);
       drawTowers();  
@@ -246,11 +255,25 @@ for (i=0; i<3;i++){
 };
   
 }
+function checkOrdenPieza(i){
+  if(towers[i].elements.length ==0){ // Si la torre está vacía
+   // alert('torre vacía: OK');
+    return true;
+  }
+  else if (towers[i].elements[towers[i].elements.length-1].id<draggedShape.id){
+   // alert('id menor: OK');
+    return true;
+  } 
+  else{
+   // alert('id mayor: NO');
+    return false;
+  } 
+}
 
 function checkWinner(){
   var winner = false;
   for (i=0; i<towers[2].elements.length-1; i++){
-      if ((towers[2].elements[i].id)>(towers[2].elements[i].id+1)) {
+      if ((towers[2].elements[i].id)<(towers[2].elements[i].id+1)) {
         winner = true;
       }
       else winner = false;
