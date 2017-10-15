@@ -10,10 +10,6 @@ canvas{
 	height: 400px;
 	display:block;
 }
-/*
-div.content h1{
-	background-color
-}*/
 
 a#play{
 	font-size:1.5em;
@@ -53,8 +49,13 @@ a#restart:hover{
 	
 	padding: 15px 0px;
 }
-section.rules{
+div.rules{
 	position: relative;
+	background: rgba(255,255,255,0.5);
+	padding: 25px 50px 0px 25px;
+}
+
+section.rules{
 	background: rgba(255,255,255,0.5);
 	padding: 25px 50px;
 }
@@ -62,6 +63,12 @@ section.rules ol{
 	display:inline-block;
 	width:50%;
 	text-align: left;
+}
+section.rules h2{
+	width: 100%;
+	background: #2d2d2d;
+	color:white;
+	padding: 15px 0px;
 }
 p{
 	color: black;

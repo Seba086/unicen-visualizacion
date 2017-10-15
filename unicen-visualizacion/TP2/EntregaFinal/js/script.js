@@ -179,17 +179,9 @@ function mouseup (e){
           if (checkOrdenPieza(i)){
               removeShapeFromPreviousTower();
               shapeHit.play();
+              draggedShape.posY = (towers[i].base.posY-shapeHeight-towers[i].towerHeight);
+              draggedShape.posX = (towers[i].height.posX+towers[i].height.width/2)-(draggedShape.width/2) ;   
               towers[i].elements.push(draggedShape);
-              draggedShape.posY = (towers[i].base.posY - towers[i].towerHeight);
-              draggedShape.posX = towers[i].height.posX+( (towers[i].height.width/2) - shapeWidth/3);   
-
-              // Cuando suelto la ficha, que se acomode según la altura de la torre
-              if (towers[i].elements[towers[i].elements.length-1] != null){ //chequeo que la torre no esté vacía
-                draggedShape.posY -= shapeHeight;
-                // Espacio entre fichas
-                // Acomodo la posX de la nueva ficha insertada
-                towers[i].shapesPosX -= towers[i].elements[towers[i].elements.length-1].width/16;
-              }
               towers[i].towerHeight += shapeHeight;
               updateConsole();  
           } else{
@@ -221,7 +213,8 @@ function mouseup (e){
             document.getElementById('message').innerHTML = "¡Ganaste el juego!";
             setTimeout(function(){ 
               document.getElementById('message').className = "hidden";
-            }, 2000);
+              restartGame();
+            }, 3000);
         }
       }
 
@@ -292,6 +285,7 @@ function startGame(){
   towers[0].createShapes();
   towers[0].drawShapes();
   updateConsole();
+  win.play();
 }
 
 function updateConsole(){
