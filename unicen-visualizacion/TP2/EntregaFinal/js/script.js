@@ -3,6 +3,7 @@ document.getElementById("canvas").addEventListener("mousemove", mousemove);
 document.getElementById("canvas").addEventListener("mouseup", mouseup);
 document.getElementById("canvas").addEventListener("mouseleave", mouseup  );
 document.getElementById("play").addEventListener("click", startGame);
+document.getElementById("restart").addEventListener("click", restartGame);
 
 var win = new Audio('sfx/win.mp3');
 var wrong = new Audio('sfx/wrong.mp3');
@@ -232,15 +233,13 @@ function mouseup (e){
 
 function mousemove (e){
   var cX = getMousePos(c,e).x;
-  var cY = getMousePos(c,e).y;
+  var cY = getMousePos(c,e).y;  
   if (dragging ==1){
     draggedShape.posX = cX-draggedShape.width/2;
     draggedShape.posY = cY-draggedShape.height/2;
     ctx.clearRect(0, 0, c.width, c.height);
     drawTowers();
   }
-  document.getElementById("cX").value = cX;
-  document.getElementById("cY").value = cY;
 }
 
 
@@ -268,11 +267,26 @@ function setDifficulty(){
         CANT_FICHAS = 7;
   }
 }
+
+function restartGame(){
+  ctx.clearRect(0, 0, c.width, c.height);
+  dragging = 0;
+  draggedShape = null;
+  towers = new Array();
+  lastPosX = 0;
+  lastPosY = 0;
+   document.getElementById('restart').className = "hidden";
+  document.getElementById('stage').className = "hidden";
+  document.getElementById('gameMenu').className = "visible" ;
+
+
+}
 function startGame(){
   var gameMenu = document.getElementById('gameMenu');
   gameMenu.className += ' hidden';
   setDifficulty();
   document.getElementById('stage').className = "visible";
+  document.getElementById('restart').className = "visible";
   createTowers();
   drawTowers();
   towers[0].createShapes();

@@ -1,23 +1,43 @@
 body{
 	font-family: "Trebuchet MS", "Verdana", Arial;
 }
+h1{
+	font-size:2em;
+}
 canvas{
 	background-color: #EEE;
 	width: 700px;
 	height: 400px;
+	display:block;
 }
+/*
+div.content h1{
+	background-color
+}*/
+
 a#play{
-	font-size:1.2em;
+	font-size:1.5em;
 	color: white;
 	text-decoration: none;
 	background-color:#2196f3;
-	padding: 5px;
+	padding: 12px;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
 a#play:hover{
-	-webkit-transform: scale(1,1.2);
-	transform: scale(1,1.2);
+	background-color:#bce1ff;
+}
+a#restart{
+	font-size:1.5em;
+	color: black;
+	text-decoration: none;
+	background-color:#d2d2d2;
+	padding: 12px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+a#restart:hover{
+	background-color:white;
 }
 .wrapper{
 	position:relative;
@@ -27,6 +47,21 @@ a#play:hover{
 }
 .content{
 	display:inline-block;
+	background: #ffffff url("../img/blurredTowers.jpg") center center;
+	background-size: cover;
+	border: 1px solid rgba(0,0,0,0.1);
+	
+	padding: 15px 0px;
+}
+section.rules{
+	position: relative;
+	background: rgba(255,255,255,0.5);
+	padding: 25px 50px;
+}
+section.rules ol{
+	display:inline-block;
+	width:50%;
+	text-align: left;
 }
 p{
 	color: black;
@@ -38,8 +73,8 @@ div.error{
 	font-size: 18px;
 	padding: 15px;
 	text-align: center;
-	bottom: 500px;
-	left: 50px;
+	bottom: 50%;
+	left: 25%;
 	-webkit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;
     -ms-transition: opacity 0.5s;
@@ -55,8 +90,8 @@ div.win{
 	font-size: 18px;
 	padding: 15px;
 	text-align: center;
-	bottom: 500px;
-	left: 50px;
+	top: 40%;
+	left: 45%;
 	-webkit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;
     -ms-transition: opacity 0.5s;
@@ -89,4 +124,26 @@ div.hidden{
 }
 .hidden{
 	display: none;
+}
+
+footer{
+	background: #2d2d2d;
+	color:white;
+	padding: 15px 0px;
+}
+a{
+	font-style: none;
+	color: white;
+	text-decoration: none;
+}
+a:hover{
+	color: yellow;
+}
+select option{
+	font-size: 1em;
+	padding: 15px;
+}
+select{
+	font-size: 1em;
+	padding: 5px;
 }
