@@ -154,3 +154,7 @@ select{
 	font-size: 1em;
 	padding: 5px;
 }
+
+.winScreen{
+    filter:blur(5px);
+}

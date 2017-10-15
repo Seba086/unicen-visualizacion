@@ -209,10 +209,12 @@ function mouseup (e){
       if (towers[2].elements.length == CANT_FICHAS){
         if (checkWinner()){
             document.getElementById('message').className = "win";
+            document.getElementById('canvas').className += "winScreen";
             win.play();
             document.getElementById('message').innerHTML = "¡Ganaste el juego!";
             setTimeout(function(){ 
               document.getElementById('message').className = "hidden";
+               document.getElementById('canvas').className = " ";
               restartGame();
             }, 3000);
         }
