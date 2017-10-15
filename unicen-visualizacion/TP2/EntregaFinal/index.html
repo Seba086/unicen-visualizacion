@@ -5,17 +5,38 @@
 		<title>Clase 3 - Ejercicio 4</title>
 		<link rel="stylesheet" type="text/css" href="css/estilos.css">
 	</head>
-	<div class="contenedor">
-		<canvas id="canvas" width="700" height="400" style="border:#000 solid 1px;" />
-	</div>
-	<!--<div>
-		<label for="cx">cX</label>
-			<input id="cX" type="text" name="cx">
-		<label for="cy">cY</label>
-			<input id="cY" type="text" name="cy">
-	</div>!-->
-	<div id="message" class="hidden">Inicia el juego</div>
-		
+	<div class="wrapper">
+		<div class="content">
+			<h2>Torres de Hanoi</h2>
+				<div id="gameMenu">
+				<h4> Seleccionar dificultad
+				   <select name="difficulty" id="difficulty">
+				   <option value="1">Fácil</option> 
+				   <option value="2">Intermedio</option> 
+				   <option value="3">Difícil</option>
+				</select>
+				</h4>
+				
+				<h5><a id="play" href="#" autofocus>Comenzar a jugar</a></h5>
+				<img src="img/towers.jpeg" width="400" alt="Torres de Hanoi"\>
+			</div>
+		<div id="stage" class="hidden">
+				<canvas id="canvas" width="700" height="400" style="border:#000 solid 1px;" />
+		</div>
+			<h3> Reglas de juego</h3>
+			<p> Las Torres de Hanói es un rompecabezas o juego matemático inventado en 1883 por el matemático francés Édouard Lucas.1​ Este juego de mesa solitario consiste en un número de discos de radio creciente que se apilan insertándose en una de las tres estacas de un tablero. El objetivo del juego es crear la pila en otra de las estacas siguiendo ciertas reglas. El problema es muy conocido en la ciencia de la computación y aparece en muchos libros de texto como introducción a la teoría de algoritmos.</p>
+			<h3>Descripción</h3>
+			<p>El juego, en su forma más tradicional, consiste en tres varillas verticales. En una de las varillas se apila un número indeterminado de discos (elaborados de madera) que determinará la complejidad de la solución, por regla general se consideran siete discos. Los discos se apilan sobre una varilla en tamaño decreciente de abajo a arriba. No hay dos discos iguales, y todos ellos están apilados de mayor a menor radio -de la base de la varilla hacia arriba- en una de las varillas, quedando las otras dos varillas vacantes. El juego consiste en pasar todos los discos de la varilla ocupada (es decir la que posee la torre) a una de las otras varillas vacantes.</p>
+			<p> Para realizar este objetivo, es necesario seguir tres simples reglas:</p>
+			<ol>
+				<li>Sólo se puede mover un disco a la vez.</li>
+				<li>Un disco de mayor tamaño no se puede estar sobre uno más pequeño que él mismo.</li>
+				<li>Sólo puedes desplazar el disco que se encuentre arriba en cada varilla.</li>
+			</ol>
+		</div>
+
+		<div id="message" class="hidden">Inicia el juego</div>
+	</div>		
 
 	</body>
  <!-- Placed at the end of the document so the pages load faster -->

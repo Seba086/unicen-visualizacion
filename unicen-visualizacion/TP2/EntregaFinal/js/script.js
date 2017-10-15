@@ -2,6 +2,7 @@ document.getElementById("canvas").addEventListener("mousedown", mousedown);
 document.getElementById("canvas").addEventListener("mousemove", mousemove);
 document.getElementById("canvas").addEventListener("mouseup", mouseup);
 document.getElementById("canvas").addEventListener("mouseleave", mouseup  );
+document.getElementById("play").addEventListener("click", startGame);
 
 var win = new Audio('sfx/win.mp3');
 var wrong = new Audio('sfx/wrong.mp3');
@@ -134,9 +135,18 @@ function identifyShape(shape,cX,cY){ //identifica si se clickeó un rectángulo
   else return false;
 }
 
+function getMousePos(canvas, evt) {
+    var mousePosOnCanvas = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - mousePosOnCanvas.left,
+      y: evt.clientY - mousePosOnCanvas.top
+    };
+}
+
 function mousedown (e){ 
-  var cX = e.clientX;
-  var cY = e.clientY;
+
+  var cX = getMousePos(c,e).x;
+  var cY = getMousePos(c,e).y;
   var i;
   for (i=0; i<3;i++){
     towers[i].elements.forEach(function(shape){
@@ -154,8 +164,8 @@ function mousedown (e){
 };
 
 function mouseup (e){
-    var cX = e.clientX;
-    var cY = e.clientY;
+  var cX = getMousePos(c,e).x;
+  var cY = getMousePos(c,e).y;
     dragging = 0;
 
     if (draggedShape!=null){
@@ -221,8 +231,8 @@ function mouseup (e){
 }
 
 function mousemove (e){
-  var cX = e.clientX;
-  var cY = e.clientY;
+  var cX = getMousePos(c,e).x;
+  var cY = getMousePos(c,e).y;
   if (dragging ==1){
     draggedShape.posX = cX-draggedShape.width/2;
     draggedShape.posY = cY-draggedShape.height/2;
@@ -244,15 +254,33 @@ function randomColor(){
 function randomRGB(){
   return Math.floor((Math.random() * 256) + 1);
 }
+function setDifficulty(){
+  
+  var gameDifficulty = document.getElementById('difficulty').value;
+  switch(gameDifficulty) {
+    case '1':
+        CANT_FICHAS = 3;
+        break;
+    case '2':
+        CANT_FICHAS = 5;
+        break;
+    default:
+        CANT_FICHAS = 7;
+  }
+}
 function startGame(){
+  var gameMenu = document.getElementById('gameMenu');
+  gameMenu.className += ' hidden';
+  setDifficulty();
+  document.getElementById('stage').className = "visible";
   createTowers();
   drawTowers();
   towers[0].createShapes();
   towers[0].drawShapes();
+  updateConsole();
 }
 
 function updateConsole(){
-  
   var i;
 for (i=0; i<3;i++){
   console.log("Torre " + i + ": ");
@@ -263,7 +291,7 @@ for (i=0; i<3;i++){
   else{
     console.log("cant de fichas: " + towers[i].elements.length);
     towers[i].elements.forEach(function(shape){
-    console.log("Shape: " + shape.id + ' - Draggueable: ' + shape.draggeable);
+    console.log("Shape: " + shape.id + ' - Draggueable: ' + shape.draggeable + ' posX('+shape.posX+'), posY('+shape.posY+')');
     });
 
   }
@@ -296,9 +324,6 @@ function checkWinner(){
   }
   return winner;
 }
-
-startGame();
-updateConsole();
 
 
 

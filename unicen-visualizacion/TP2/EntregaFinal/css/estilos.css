@@ -1,8 +1,35 @@
+body{
+	font-family: "Trebuchet MS", "Verdana", Arial;
+}
 canvas{
 	background-color: #EEE;
+	width: 700px;
+	height: 400px;
 }
-.contenedor{
-	position: relative;
+a#play{
+	font-size:1.2em;
+	color: white;
+	text-decoration: none;
+	background-color:#2196f3;
+	padding: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+a#play:hover{
+	-webkit-transform: scale(1,1.2);
+	transform: scale(1,1.2);
+}
+.wrapper{
+	position:relative;
+	width: 100%;
+	height: 400px;
+	text-align: center;
+}
+.content{
+	display:inline-block;
+}
+p{
+	color: black;
 }
 div.error{
 	position:fixed;
@@ -55,4 +82,11 @@ div.hidden{
      opacity: 0;
 	-webkit-transition: 1s;
     transition: 1s;	
+}
+
+.visible{
+	display: inline-block;;
+}
+.hidden{
+	display: none;
 }
