@@ -1,0 +1,76 @@
+
+p {
+  text-align: center;
+}
+.content{
+	position: relative;
+  width: 100%;
+  height: auto;
+  background-color: white;
+  text-align: center;
+}
+.gameScreen{
+  display: inline-block;
+  width: 1000px;
+  height: 450px;
+  background: url('../img/BG/bg.png') repeat-x center bottom;
+  background-size: cover;
+}
+
+.bgRight{
+  animation: bgMoveRight 20s infinite linear;
+}
+
+.bgLeft{
+  animation: bgMoveLeft 20s infinite linear;
+}
+
+
+/*Player */
+
+.player{
+  /* steps causes the animation to chunk into 12 equal pieces */
+  background: url(../img/Character/knightLeftRight.png) 0 0 no-repeat; 
+  height: 150px;
+  width: 188.5px;
+  /*border: 1px solid black;*/
+}
+
+.playerIddleLeft{
+   animation: iddleLeft 1s steps(10) infinite;
+}
+.playerDies {
+  animation: playerDies 0.5s steps(10) 1;
+}
+.playerWalksRight {
+  animation: playerWalksRight 0.5s steps(10) infinite;
+}
+.playerWalksLeft {
+ animation: playerWalksLeft 0.5s steps(10) infinite;
+}
+
+
+@keyframes iddleLeft {  
+  0% {background-position: 0 0; } 
+  100% {background-position: -1885px 0; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes playerWalksRight {  
+  0% {background-position: 0 -150px; } 
+  100% {background-position: -1885px -150px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes playerWalksLeft {  
+  0% {background-position: 0px -1200px; } 
+  100% {background-position: -1885px -1200px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes playerDies {  
+  0% {background-position: 0 -900px; } 
+  100% {background-position: -1885px -900px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes bgMoveRight {  
+  0% {background-position: 0 -150px; } 
+  100% {background-position: -1000px -150px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes bgMoveLeft {  
+  0% {background-position: 0 -150px; } 
+  100% {background-position: 1000px -150px; } /* Must be full height of sprite or skipping will happen.*/
+}

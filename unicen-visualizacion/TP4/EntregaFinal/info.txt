@@ -1,0 +1,9 @@
+10 de largo(columnas o steps)
+7 de alto (filas)
+
+944 de ancho
+751 de alto
+
+1885 x 1050 (full frame)
+
+188.5x150
