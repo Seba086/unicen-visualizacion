@@ -11,9 +11,9 @@ var punch = new Audio('sfx/punch.mp3');
 var game;
 var player;
 var playerDistance = 0;
-var modifDistance = 20;
+var modifDistance = 7;
 var lastKeyState = 0;
-var content = document.getElementById("content");
+var content = document.getElementById("gameScreen");
 var playerWidth= 188.5;
 var playerHeight = 150;
 var gameScreen = {
@@ -36,21 +36,27 @@ function Game(player, enemies, score){
 
 Game.prototype.drawScene = function(){
   document.getElementById("player").className = "player playerIddleRight";
-  document.getElementById("player").style.transform += "translate(" + (game.player.posX - (playerWidth*1.75)) + "px, " + (game.player.posY - playerHeight) + "px)";
+  document.getElementById("player").style.transform += "translate(" + (game.player.posX - (playerWidth)) + "px, " + (game.player.posY - playerHeight) + "px)";
 
 }
 
 Game.prototype.gameLoop = function(){
 	//console.log(keyState);
     if (keyState[68]){ // Right
-		playerDistance += modifDistance;
-    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth*1.75)+ playerDistance) + "px," + (game.player.posY - playerHeight) + "px)";
+    	if(game.player.posX<(gameScreen.width*0.7)){
+			playerDistance += modifDistance;
+			game.player.posX+= modifDistance;
+	    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth)+ playerDistance) + "px," + (game.player.posY - playerHeight) + "px)";
+    	}
     	document.getElementById("player").className = "player playerWalksRight";
     	lastKeyState = 68;
     }    
     else if (keyState[65]){ // Left
-    	playerDistance -= modifDistance;
-    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth*1.75) + playerDistance)+ "px," + (game.player.posY - playerHeight) + "px)";
+    	if(game.player.posX>(gameScreen.width*0.35)){
+	    	playerDistance -= modifDistance;
+	    	game.player.posX-= modifDistance;
+	    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth) + playerDistance)+ "px," + (game.player.posY - playerHeight) + "px)";
+    	}
     	document.getElementById("player").className = "player playerWalksLeft";
     	lastKeyState = 65;
 
@@ -62,21 +68,23 @@ Game.prototype.gameLoop = function(){
           punch.play();
         }, 100);
 
-    } else {
-    	document.getElementById("player").className = "player playerAttacksRight";
-    	setTimeout(function(){ 
-          punch.play();
-        }, 100);
-    }
+	    } else {
+	    	document.getElementById("player").className = "player playerAttacksRight";
+	    	setTimeout(function(){ 
+	          punch.play();
+	        }, 100);
+	    }
     	
 
     }
     else{
     	if (lastKeyState==68){
 	    	document.getElementById("player").className = "player playerIddleRight";
+	    	updateConsole();
     	}
     	else if (lastKeyState==65) {
     		document.getElementById("player").className = "player playerIddleLeft";
+    		updateConsole();
 
     	} 
     	

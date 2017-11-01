@@ -46,10 +46,10 @@ p {
   animation: playerDies 0.5s steps(10) 1;
 }
 .playerWalksRight {
-  animation: playerWalksRight 1s steps(10) infinite;
+  animation: playerWalksRight 0.7s steps(10) infinite;
 }
 .playerWalksLeft {
- animation: playerWalksLeft 1s steps(10) infinite;
+ animation: playerWalksLeft 0.7s steps(10) infinite;
 }
 .playerAttacksLeft {
   animation: playerAttacksLeft 0.5s steps(10) infinite;

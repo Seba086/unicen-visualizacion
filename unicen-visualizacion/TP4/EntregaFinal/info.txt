@@ -7,3 +7,6 @@
 1885 x 1050 (full frame)
 
 188.5x150
+
+Limits: 
+Left: 418.5px (posX) Right: 670.5px (posX)
