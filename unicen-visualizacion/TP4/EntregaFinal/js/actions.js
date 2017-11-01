@@ -7,11 +7,12 @@ window.addEventListener('keyup',function(e){
     keyState[e.keyCode || e.which] = false;
 },true);   
 
-
+var punch = new Audio('sfx/punch.mp3');
 var game;
 var player;
 var playerDistance = 0;
 var modifDistance = 20;
+var lastKeyState = 0;
 var content = document.getElementById("content");
 var playerWidth= 188.5;
 var playerHeight = 150;
@@ -34,7 +35,7 @@ function Game(player, enemies, score){
 }
 
 Game.prototype.drawScene = function(){
-  document.getElementById("player").className = "player playerIddleLeft";
+  document.getElementById("player").className = "player playerIddleRight";
   document.getElementById("player").style.transform += "translate(" + (game.player.posX - (playerWidth*1.75)) + "px, " + (game.player.posY - playerHeight) + "px)";
 
 }
@@ -45,14 +46,42 @@ Game.prototype.gameLoop = function(){
 		playerDistance += modifDistance;
     	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth*1.75)+ playerDistance) + "px," + (game.player.posY - playerHeight) + "px)";
     	document.getElementById("player").className = "player playerWalksRight";
+    	lastKeyState = 68;
     }    
-    if (keyState[65]){ // Left
+    else if (keyState[65]){ // Left
     	playerDistance -= modifDistance;
     	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth*1.75) + playerDistance)+ "px," + (game.player.posY - playerHeight) + "px)";
     	document.getElementById("player").className = "player playerWalksLeft";
+    	lastKeyState = 65;
 
     }
-    	setTimeout(game.gameLoop, 75);
+    else if (keyState[17]){ // Ctrl (Attack)
+    	if(lastKeyState == 65){
+    	document.getElementById("player").className = "player playerAttacksLeft";
+    	setTimeout(function(){ 
+          punch.play();
+        }, 100);
+
+    } else {
+    	document.getElementById("player").className = "player playerAttacksRight";
+    	setTimeout(function(){ 
+          punch.play();
+        }, 100);
+    }
+    	
+
+    }
+    else{
+    	if (lastKeyState==68){
+	    	document.getElementById("player").className = "player playerIddleRight";
+    	}
+    	else if (lastKeyState==65) {
+    		document.getElementById("player").className = "player playerIddleLeft";
+
+    	} 
+    	
+    }
+    setTimeout(game.gameLoop, 115);
     // redraw/reposition your object here
     // also redraw/animate any objects not controlled by the user
     
@@ -60,7 +89,7 @@ Game.prototype.gameLoop = function(){
 }
 
 function keyup(){
-  document.getElementById("player").className = "player playerIddleLeft";
+  
 }
 
 function startGame(e){

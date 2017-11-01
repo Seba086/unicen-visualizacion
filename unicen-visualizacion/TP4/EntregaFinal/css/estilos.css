@@ -37,20 +37,33 @@ p {
 }
 
 .playerIddleLeft{
-   animation: iddleLeft 1s steps(10) infinite;
+   animation: playerIddleLeft 1s steps(10) infinite;
+}
+.playerIddleRight{
+   animation: playerIddleRight 1s steps(10) infinite;
 }
 .playerDies {
   animation: playerDies 0.5s steps(10) 1;
 }
 .playerWalksRight {
-  animation: playerWalksRight 0.5s steps(10) infinite;
+  animation: playerWalksRight 1s steps(10) infinite;
 }
 .playerWalksLeft {
- animation: playerWalksLeft 0.5s steps(10) infinite;
+ animation: playerWalksLeft 1s steps(10) infinite;
+}
+.playerAttacksLeft {
+  animation: playerAttacksLeft 0.5s steps(10) infinite;
+}
+.playerAttacksRight {
+  animation: playerAttacksRight 0.5s steps(10) infinite;
 }
 
 
-@keyframes iddleLeft {  
+@keyframes playerIddleLeft {  
+  0% {background-position: 0 -1050px; } 
+  100% {background-position: -1885px -1050px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes playerIddleRight {  
   0% {background-position: 0 0; } 
   100% {background-position: -1885px 0; } /* Must be full height of sprite or skipping will happen.*/
 }
@@ -61,6 +74,14 @@ p {
 @keyframes playerWalksLeft {  
   0% {background-position: 0px -1200px; } 
   100% {background-position: -1885px -1200px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes playerAttacksLeft {  
+  0% {background-position: 0 -1350px; } 
+  100% {background-position: -1885px -1350px; } /* Must be full height of sprite or skipping will happen.*/
+}
+@keyframes playerAttacksRight {  
+  0% {background-position: 0 -750px; } 
+  100% {background-position: -1885px -750px; } /* Must be full height of sprite or skipping will happen.*/
 }
 @keyframes playerDies {  
   0% {background-position: 0 -900px; } 
