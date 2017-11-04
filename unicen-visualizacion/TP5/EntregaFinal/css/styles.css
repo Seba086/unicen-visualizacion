@@ -1,0 +1,22 @@
+button{
+	cursor: pointer;
+}
+
+.parallax { 
+    /* Set a specific height */
+    height: 300px;
+    background: url("../img/bg2.jpg");
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 100% 70%;
+
+}
+
+
+footer{
+	background-color: #dadada !important;
+}
+
