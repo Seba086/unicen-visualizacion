@@ -7,11 +7,13 @@ window.addEventListener('keyup',function(e){
     keyState[e.keyCode || e.which] = false;
 },true);   
 
+var bgPos = 0;
 var punch = new Audio('sfx/punch.mp3');
+var music = new Audio('music/8 bit disco.mp3');
 var game;
 var player;
 var playerDistance = 0;
-var modifDistance = 7;
+var modifDistance = 8;
 var lastKeyState = 0;
 var content = document.getElementById("gameScreen");
 var playerWidth= 188.5;
@@ -43,19 +45,25 @@ Game.prototype.drawScene = function(){
 Game.prototype.gameLoop = function(){
 	//console.log(keyState);
     if (keyState[68]){ // Right
-    	if(game.player.posX<(gameScreen.width*0.7)){
+    	if(game.player.posX<(gameScreen.width*0.65)){
 			playerDistance += modifDistance;
 			game.player.posX+= modifDistance;
 	    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth)+ playerDistance) + "px," + (game.player.posY - playerHeight) + "px)";
+    	} else{
+    		document.getElementById("gameScreen").style.backgroundPosition = bgPos + "px 0px";
+    		bgPos-=modifDistance;
     	}
     	document.getElementById("player").className = "player playerWalksRight";
     	lastKeyState = 68;
     }    
     else if (keyState[65]){ // Left
-    	if(game.player.posX>(gameScreen.width*0.35)){
+    	if(game.player.posX>(gameScreen.width*0.4)){
 	    	playerDistance -= modifDistance;
 	    	game.player.posX-= modifDistance;
 	    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth) + playerDistance)+ "px," + (game.player.posY - playerHeight) + "px)";
+    	}else {
+    		document.getElementById("gameScreen").style.backgroundPosition =  bgPos + "px 0px";
+    		bgPos+=modifDistance;
     	}
     	document.getElementById("player").className = "player playerWalksLeft";
     	lastKeyState = 65;
@@ -102,16 +110,17 @@ function keyup(){
 
 function startGame(e){
 	game = new Game();
-	updateConsole();
+	//music.play();
 	updateConsole();
 	game.drawScene();
 	game.gameLoop();
+
 	
 }
 
 function updateConsole(){
-	console.log("top: " + gameScreen.pos.top, ", right: " + gameScreen.pos.right, "bottom: " + gameScreen.pos.bottom,"left: " + gameScreen.pos.left);
-	console.log("width: " + gameScreen.width, ", height: " + gameScreen.height);
-	console.log("I'm the player, my pos is (" + game.player.posX + ", " + game.player.posY + "), and I have " + game.player.lives + " lives.");
+	//console.log("top: " + gameScreen.pos.top, ", right: " + gameScreen.pos.right, "bottom: " + gameScreen.pos.bottom,"left: " + gameScreen.pos.left);
+	//console.log("width: " + gameScreen.width, ", height: " + gameScreen.height);
+	//console.log("I'm the player, my pos is (" + game.player.posX + ", " + game.player.posY + "), and I have " + game.player.lives + " lives.");
 }
 

@@ -88,10 +88,10 @@ p {
   100% {background-position: -1885px -900px; } /* Must be full height of sprite or skipping will happen.*/
 }
 @keyframes bgMoveRight {  
-  0% {background-position: 0 -150px; } 
-  100% {background-position: -1000px -150px; } /* Must be full height of sprite or skipping will happen.*/
+  0% {background-position: 0 0; } 
+  100% {background-position: -1000px 0; } /* Must be full height of sprite or skipping will happen.*/
 }
 @keyframes bgMoveLeft {  
-  0% {background-position: 0 -150px; } 
-  100% {background-position: 1000px -150px; } /* Must be full height of sprite or skipping will happen.*/
+  0% {background-position: 0 0; } 
+  100% {background-position: 1000px 0; } /* Must be full height of sprite or skipping will happen.*/
 }
