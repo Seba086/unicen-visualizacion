@@ -1,11 +1,25 @@
+a, a:hover{
+	text-decoration: none;
+	color: #fff;
+}
 button{
 	cursor: pointer;
+}
+.space{
+	margin: 15px 0px;
+}
+
+.searchHashtag{
+	color: #117a8b;
+	font-style: italic;
 }
 
 .parallax { 
     /* Set a specific height */
     height: 300px;
-    background: url("../img/bg2.jpg");
+    animation: headerBg 12s infinite;
+    -webkit-transition: background-image 0.2s ease-in-out;
+    transition: background-image 0.2s ease-in-out;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -14,9 +28,110 @@ button{
     background-size: 100% 70%;
 
 }
+.likeHeart,.likedHeart{
+	display:inline-block;
+	width: 50px;
+	height:50px;
+	background: url('../img/web_heart_animation.png');
+	vertical-align:middle;
+}
+.likedHeart{
+	animation: likesHeart 0.5s steps(28) 1 forwards;
+}
 
 
 footer{
 	background-color: #dadada !important;
 }
 
+.thumbnail{
+	border: 1px solid #ddd;
+}
+div.thumbnail{
+	max-width:100%;
+	transform: scale(0);
+	animation: scaleIn 1s 1 forwards;
+	margin-bottom: 20px;
+}
+div.thumbnail img{
+	max-width:inherit;
+}
+
+p.singleTweet{
+	display: inline-block;
+}
+
+i.mlike{
+	transform: scale(0);
+	animation: scaleInWithBounce 1s 1 forwards;
+	animation-delay: 1s;
+
+}
+
+@keyframes likesHeart {  
+  0% {background-position: 0 0; } 
+  100% {background-position: -1400px 0; } /* Must be full height of sprite or skipping will happen.*/
+}
+
+@keyframes headerBg {
+	0% {
+	background-image: url("../img/bg2.jpg");
+}
+	30% {
+	background-image: url("../img/bg2.jpg");
+}
+	40% {
+	background-image: url("../img/bg3.jpg");
+}
+	70% {
+	background-image: url("../img/bg3.jpg");
+}
+	80% {
+	background-image: url("../img/bg4.jpg");
+}
+    95% {
+	background-image: url("../img/bg4.jpg");
+    }
+    100% {
+	background-image: url("../img/bg2.jpg");
+    }    
+}
+@keyframes scaleIn {
+	0% {
+	transform: scale(0);
+    -webkit-transition: -webkit-transform 0.5s;
+}
+    100% {
+    transform: scale(1);
+    -webkit-transition: -webkit-transform 0.5s;
+    }
+}
+
+
+@keyframes scaleInWithBounce {
+	0% {
+	transform: scale(0);
+    -webkit-transition: -webkit-transform 0.5s;
+	}
+	20% {
+	transform: scale(1.2);
+    -webkit-transition: -webkit-transform 0.5s;
+	}
+	40% {
+	transform: scale(0.7);
+    -webkit-transition: -webkit-transform 0.5s;
+	}
+	60% {
+	transform: scale(1.1);
+    -webkit-transition: -webkit-transform 0.5s;
+	}
+	80% {
+	transform: scale(0.9);
+    -webkit-transition: -webkit-transform 0.5s;
+	}
+   
+    100% {
+    transform: scale(1);
+    -webkit-transition: -webkit-transform 0.5s;
+    }
+}
