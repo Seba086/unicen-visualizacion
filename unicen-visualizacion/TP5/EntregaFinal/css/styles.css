@@ -45,6 +45,8 @@ footer{
 }
 
 div.thumbnail{
+	position: relative;
+	float: left;
 	max-width:100%;
 	transform: scale(0);
 	animation: scaleIn 1s 1 forwards;
@@ -64,6 +66,10 @@ div.thumbnail img{
 	max-width:inherit;
 }
 
+div.caption{
+	max-width: 100%;
+	font.size: 1em;
+}
 p.singleTweet{
 	display: inline-block;
 }
@@ -88,6 +94,12 @@ i.mlike{
 .active{
 	color: #989898;
 	border: 1px solid #e0e0e0;
+}
+
+.firstItem{
+	opacity: 1;
+	-webkit-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;	
 }
 
 
