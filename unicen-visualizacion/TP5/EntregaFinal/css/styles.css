@@ -44,14 +44,21 @@ footer{
 	background-color: #dadada !important;
 }
 
-.thumbnail{
-	border: 1px solid #ddd;
-}
 div.thumbnail{
 	max-width:100%;
 	transform: scale(0);
 	animation: scaleIn 1s 1 forwards;
 	margin-bottom: 20px;
+	opacity: 0.7;
+	border: 1px solid #ddd;
+	-webkit-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+}
+div.thumbnail:hover{
+	opacity: 1;
+	border: 1px solid #ddd;
+	-webkit-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
 }
 div.thumbnail img{
 	max-width:inherit;
@@ -67,6 +74,22 @@ i.mlike{
 	animation-delay: 1s;
 
 }
+.viewMode{
+	font-size: 40px;
+	color: #c7c7c7;
+	margin: auto 7px;
+}
+
+.viewMode:hover, .grid:hover{
+	color: #989898;
+	cursor: pointer;
+}
+
+.active{
+	color: #989898;
+	border: 1px solid #e0e0e0;
+}
+
 
 @keyframes likesHeart {  
   0% {background-position: 0 0; } 
