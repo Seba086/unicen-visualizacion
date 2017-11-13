@@ -3,18 +3,27 @@ p {
   text-align: center;
 }
 .content{
-	position: relative;
+	position: absolute;
   width: 100%;
   height: auto;
   background-color: white;
   text-align: center;
-}
-.gameScreen{
   display: inline-block;
+  margin-left: 50%;
+}
+.gameScreen, .foreground{
+  position: absolute;
   width: 1000px;
   height: 450px;
-  background: url('../img/BG/bg.png') repeat-x center bottom;
-  background-size: cover;
+  /*background-size: contain;*/
+}
+.gameScreen{
+  background: url('../img/BG/bgFloor.png') repeat-x 0px bottom, url('../img/BG/bg.png') repeat-x 0px bottom;
+  z-index: 12;
+}
+.foreground{
+  background: url('../img/BG/bgTrees.png') repeat-x 0px bottom;
+  z-index:13;
 }
 
 .bgRight{
@@ -33,6 +42,8 @@ p {
   background: url(../img/Character/knightLeftRight.png) 0 0 no-repeat; 
   height: 150px;
   width: 188.5px;
+  z-index: 10;
+  position: absolute;
   /*border: 1px solid black;*/
 }
 
@@ -94,4 +105,20 @@ p {
 @keyframes bgMoveLeft {  
   0% {background-position: 0 0; } 
   100% {background-position: 1000px 0; } /* Must be full height of sprite or skipping will happen.*/
+}
+
+
+#bg-pos{
+  position: fixed;
+  bottom: 0px;
+  left: 15px;
+  width: 300px;
+  height: 150px;
+  background-color:grey;
+  color:white;
+}
+#bg-pos p{
+  text-align: left !important;
+  padding: 7px 0px 7px 15px;
+  margin: 0px;
 }

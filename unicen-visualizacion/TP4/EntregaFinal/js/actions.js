@@ -8,20 +8,22 @@ window.addEventListener('keyup',function(e){
 },true);   
 
 var bgPos = 0;
+var floorPos = 0;
+var bgTrees = 0;
 var punch = new Audio('sfx/punch.mp3');
 var music = new Audio('music/8 bit disco.mp3');
 var game;
-var player;
-var playerDistance = 0;
-var modifDistance = 8;
+var player = document.getElementById("player");
+var modifDistance = 15;
 var lastKeyState = 0;
-var content = document.getElementById("gameScreen");
-var playerWidth= 188.5;
+var foreground = document.getElementById("foreground");
+var screen = document.getElementById("gameScreen");
+var playerWidth = 188.5;
 var playerHeight = 150;
 var gameScreen = {
-	pos: content.getBoundingClientRect(),
-	width: content.getBoundingClientRect().right - content.getBoundingClientRect().left,
-	height: content.getBoundingClientRect().bottom - content.getBoundingClientRect().top
+	pos: screen.getBoundingClientRect(),
+	width: screen.getBoundingClientRect().right - screen.getBoundingClientRect().left,
+	height: screen.getBoundingClientRect().bottom - screen.getBoundingClientRect().top
 };
 
 function Player(paramPosX, paramPosY, paramLives){
@@ -37,47 +39,52 @@ function Game(player, enemies, score){
 }
 
 Game.prototype.drawScene = function(){
-  document.getElementById("player").className = "player playerIddleRight";
-  document.getElementById("player").style.transform += "translate(" + (game.player.posX - (playerWidth)) + "px, " + (game.player.posY - playerHeight) + "px)";
+	player.className = "player playerIddleRight";
+	player.style.transform += "translate(" + (game.player.posX - (playerWidth)) + "px, " + (game.player.posY - playerHeight) + "px)";
 
 }
 
 Game.prototype.gameLoop = function(){
 	//console.log(keyState);
+	//document.getElementById('bg-pos').innerHTML = "<p><b>Console</b></p><p>bgPos: " + bgPos + "</p><p>playerPos: (" + game.player.posX + ", " + game.player.posY + ")";
     if (keyState[68]){ // Right
-    	if(game.player.posX<(gameScreen.width*0.65)){
-			playerDistance += modifDistance;
+    	if(game.player.posX<(gameScreen.width*0.75)){
 			game.player.posX+= modifDistance;
-	    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth)+ playerDistance) + "px," + (game.player.posY - playerHeight) + "px)";
+	    	player.style.transform = "translate(" + (game.player.posX - playerWidth) + "px," + (game.player.posY - playerHeight) + "px)";
     	} else{
-    		document.getElementById("gameScreen").style.backgroundPosition = bgPos + "px 0px";
-    		bgPos-=modifDistance;
+			bgPos-=modifDistance/4;
+			floorPos-=modifDistance/2;
+			bgTrees-=modifDistance/1.5;
+			screen.style.backgroundPosition = floorPos + "px bottom, " + bgPos + "px bottom";
+			foreground.style.backgroundPosition = bgTrees + "px bottom";
     	}
-    	document.getElementById("player").className = "player playerWalksRight";
+    	player.className = "player playerWalksRight";
     	lastKeyState = 68;
     }    
     else if (keyState[65]){ // Left
-    	if(game.player.posX>(gameScreen.width*0.4)){
-	    	playerDistance -= modifDistance;
+    	if(game.player.posX>(gameScreen.width*0.30)){
 	    	game.player.posX-= modifDistance;
-	    	document.getElementById("player").style.transform = "translate(" + ((game.player.posX - playerWidth) + playerDistance)+ "px," + (game.player.posY - playerHeight) + "px)";
+	    	player.style.transform = "translate(" + (game.player.posX - playerWidth)+ "px," + (game.player.posY - playerHeight) + "px)";
     	}else {
-    		document.getElementById("gameScreen").style.backgroundPosition =  bgPos + "px 0px";
-    		bgPos+=modifDistance;
+			bgPos+=modifDistance/4;
+			floorPos+=modifDistance/2;
+			bgTrees+=modifDistance/1.5;
+			screen.style.backgroundPosition = floorPos + "px bottom, " + bgPos + "px bottom";
+			foreground.style.backgroundPosition = bgTrees + "px bottom";
     	}
-    	document.getElementById("player").className = "player playerWalksLeft";
+    	player.className = "player playerWalksLeft";
     	lastKeyState = 65;
 
     }
     else if (keyState[17]){ // Ctrl (Attack)
     	if(lastKeyState == 65){
-    	document.getElementById("player").className = "player playerAttacksLeft";
+			player.className = "player playerAttacksLeft";
     	setTimeout(function(){ 
           punch.play();
         }, 100);
 
 	    } else {
-	    	document.getElementById("player").className = "player playerAttacksRight";
+	    	player.className = "player playerAttacksRight";
 	    	setTimeout(function(){ 
 	          punch.play();
 	        }, 100);
