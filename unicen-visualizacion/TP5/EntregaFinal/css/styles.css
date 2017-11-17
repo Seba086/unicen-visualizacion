@@ -37,6 +37,28 @@ button{
 }
 .likedHeart{
 	animation: likesHeart 0.5s steps(28) 1 forwards;
+	animation-delay:2s;
+}
+
+#carga{
+	z-index: 700;
+	background-color: rgba(255,255,255,0.5);
+	width: 100%;
+	height:100%;
+}
+
+.loading{
+	position: fixed;
+	left: 45%;
+	top: 45%;
+	background: url('../img/loading.png');
+	height: 100px;
+	width: 100px;
+	animation: loading 1s steps(17) infinite;
+}
+
+.likedHeart:hover{
+	animation: scaleInWithBounce 10s 1 forwards;
 }
 
 
@@ -70,9 +92,6 @@ div.caption{
 	max-width: 100%;
 	font.size: 1em;
 }
-p.singleTweet{
-	display: inline-block;
-}
 
 i.mlike{
 	transform: scale(0);
@@ -102,11 +121,46 @@ i.mlike{
     transition: opacity 0.2s ease-in-out;	
 }
 
+#layout{
+	display: none;
+	transition:all 1s linear;
+	-ms-transform:all 1s linear;
+}
+div#tweetsContainer.tweetsContainer{
+	display:inherit;
+	padding: 0px 50px;
+}
+
+.row{
+	display:flex;
+}
+
+.gridThumbnails{
+	max-height: 250px;
+	overflow: hidden;
+}
+
+.gridHeight{
+	max-height: 250px;
+}
+
+.galleryHeight{
+	height: 400px;
+}
+
+div.galleryHeight img{
+	width: auto;
+	height: 325px;
+}
 
 @keyframes likesHeart {  
   0% {background-position: 0 0; } 
   100% {background-position: -1400px 0; } /* Must be full height of sprite or skipping will happen.*/
 }
+@keyframes loading {  
+	0% {background-position: 0 0; } 
+	100% {background-position: -1700px 0; } /* Must be full height of sprite or skipping will happen.*/
+  }
 
 @keyframes headerBg {
 	0% {
