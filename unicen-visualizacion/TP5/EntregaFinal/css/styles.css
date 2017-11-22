@@ -49,8 +49,8 @@ button{
 
 .loading{
 	position: fixed;
-	left: 45%;
-	top: 45%;
+	left: 10%;
+	top: 75%;
 	background: url('../img/loading.png');
 	height: 100px;
 	width: 100px;
@@ -58,9 +58,14 @@ button{
 }
 
 .likedHeart:hover{
-	animation: scaleInWithBounce 10s 1 forwards;
+	background: url('../img/web_heart_animation.png') 1450px 0px;
+	animation: scaleInHeart 2s 1 forwards;
 }
 
+.miniGalleryThumb{
+	max-height:100px;
+	margin-bottom: 15px;
+}
 
 footer{
 	background-color: #dadada !important;
@@ -70,7 +75,6 @@ div.thumbnail{
 	position: relative;
 	float: left;
 	max-width:100%;
-	transform: scale(0);
 	animation: scaleIn 1s 1 forwards;
 	margin-bottom: 20px;
 	opacity: 0.7;
@@ -153,6 +157,10 @@ div.galleryHeight img{
 	height: 325px;
 }
 
+.rotateIn{
+	animation: rotateIn 1s 1 forwards;
+}
+
 @keyframes likesHeart {  
   0% {background-position: 0 0; } 
   100% {background-position: -1400px 0; } /* Must be full height of sprite or skipping will happen.*/
@@ -195,32 +203,25 @@ div.galleryHeight img{
     -webkit-transition: -webkit-transform 0.5s;
     }
 }
-
-
-@keyframes scaleInWithBounce {
+@keyframes rotateIn {
 	0% {
-	transform: scale(0);
-    -webkit-transition: -webkit-transform 0.5s;
-	}
-	20% {
-	transform: scale(1.2);
-    -webkit-transition: -webkit-transform 0.5s;
-	}
-	40% {
-	transform: scale(0.7);
-    -webkit-transition: -webkit-transform 0.5s;
-	}
-	60% {
-	transform: scale(1.1);
-    -webkit-transition: -webkit-transform 0.5s;
-	}
-	80% {
-	transform: scale(0.9);
-    -webkit-transition: -webkit-transform 0.5s;
-	}
-   
+	transform: rotate(0deg);
+    -webkit-transition: -webkit-transform 2s;
+}
     100% {
-    transform: scale(1);
+    transform: rotate(360deg);
+    -webkit-transition: -webkit-transform 2s;
+    }
+}
+
+
+@keyframes scaleInHeart {
+	0% {
+	transform: scale(1);
+    -webkit-transition: -webkit-transform 0.5s;
+	}
+    100% {
+    transform: scale(1.5);
     -webkit-transition: -webkit-transform 0.5s;
     }
 }

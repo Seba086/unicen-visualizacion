@@ -30,13 +30,28 @@ function switchToGrid(){
     for (i = 0; i < captions.length; i++) {
       captions[i].style.display = 'inline';
      }
+     document.getElementById("tweetsContainer").innerHTML = "";
+     imagenesXHashtag.forEach(element => {
+        if(element != null){
+            document.getElementById("tweetsContainer").innerHTML +=
+            '<div id="' + element.id + '" class="display-flex col-lg-3 col-sm-1 col-md-3">'
+            + '<div class="thumbnail">'
+            + '<img class="gridHeight img-fluid img-thumbnail img-responsive" src="' + element.url
+            + '"/><div class="caption">'
+            + '<p class="singleTweet"><span id="likeHeart" class="likedHeart"></span> <span id="likesCount">' + element.likes + '</span> Likes'
+            + '<i class="material-icons">loop</i> ' + element.retweets + ' Retweets'
+            + '</div></div></div>';
+           }
+     });
+     document.getElementById('layout').style.display = "inline";
+     //activarLayout();
 }
 
 function switchToGallery(){
-    document.getElementById(imagenesXHashtag[0].id).className = "galleryHeight col-lg-8 offset-lg-3 col-md-7 offset-md-2 firstItem btn-group btn-group-sm clearfix";
+    //document.getElementById(imagenesXHashtag[0].id).className = "galleryHeight col-lg-8 offset-lg-3 col-md-7 offset-md-2 firstItem btn-group btn-group-sm clearfix";
     for(i=1; i<imagenesXHashtag.length;i++){
             //console.log('elemento ' + i + ' ' + imagenesXHashtag[i].id);
-            document.getElementById(imagenesXHashtag[i].id).className = "col-lg-2 col-md-2 btn-group btn-group-sm clearfix";
+            document.getElementById(imagenesXHashtag[i].id).className = "miniGalleryThumb col-lg-2 col-md-2 btn-group btn-group-sm clearfix";
     }
 
     var captions = document.getElementsByClassName('caption');
@@ -44,7 +59,21 @@ function switchToGallery(){
       captions[i].style.display = 'none';
      }
 
-
+     document.getElementById("tweetsContainer").innerHTML = "";
+     imagenesXHashtag.forEach(element => {
+        if(element != null){
+            document.getElementById("tweetsContainer").innerHTML +=
+            '<div id="' + element.id + '" class="display-flex col-lg-3 col-sm-1 col-md-3">'
+            + '<div class="thumbnail">'
+            + '<img class="rotateIn |gridHeight img-fluid img-thumbnail img-responsive" src="' + element.url
+            + '"/><div class="caption">'
+            + '<p class="singleTweet"><span id="likeHeart" class="likedHeart"></span> <span id="likesCount">' + element.likes + '</span> Likes'
+            + '<i class="material-icons">loop</i> ' + element.retweets + ' Retweets'
+            + '</div></div></div>';
+           }
+     });
+     document.getElementById('layout').style.display = "inline";
+     document.getElementById(imagenesXHashtag[0].id).className = "rotateIn col-lg-8 offset-lg-2 col-md-7 offset-md-2 firstItem btn-group btn-group-sm clearfix";
 }	
 
 // Carga de Tweets
