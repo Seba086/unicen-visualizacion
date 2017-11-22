@@ -350,6 +350,7 @@ function restartGame(){
 			game.objects.forEach(object => {
 				document.getElementById(object.id).style.transform = "translate(" + (object.x) + "px, " + (object.y) + "px)";
 			});
+			music.play();
 			game.gameLoop();	
 
 		}, 5000);
@@ -387,12 +388,12 @@ function checkGameOver(){
 function startGame(e){
 	prepareScenario();
 	game = new Game();
-	//music.play();
+	music.play();
 	game.setPlayerLives(playerLives);
 	game.spawnObjects(random(), 5); //Creo diamantes y enemigos
 	game.drawObjects(); // Los agrego al DOM
 	game.drawScene();	
-	game.gameLoop();//
+	game.gameLoop();
 
 	window.setInterval(function(){
 		if (game.player.alive){
