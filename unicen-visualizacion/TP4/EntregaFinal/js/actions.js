@@ -392,7 +392,7 @@ function startGame(e){
 	game.spawnObjects(random(), 5); //Creo diamantes y enemigos
 	game.drawObjects(); // Los agrego al DOM
 	game.drawScene();	
-	game.gameLoop();
+	game.gameLoop();//
 
 	window.setInterval(function(){
 		if (game.player.alive){
