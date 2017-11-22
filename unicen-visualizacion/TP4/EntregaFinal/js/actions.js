@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
-window.addEventListener('load', startGame);
+//window.addEventListener('load', startGame);
+document.getElementById('start').addEventListener('click', startGame);
 var keyState = {};    
 window.addEventListener('keydown',function(e){
     keyState[e.keyCode || e.which] = true;
@@ -20,10 +21,8 @@ var hurt = new Audio('sfx/hurt.wav');
 var death = new Audio('music/death.mp3');
 var monsterDies = new Audio('sfx/monsterHurt2.wav');
 var game;
-var player = document.getElementById("player");
 var modifDistance = 10;
 var lastKeyState = 0;
-var foreground = document.getElementById("foreground");
 var screen = document.getElementById("gameScreen");
 var objectWidth = 30;
 var objectHeight = 30;
@@ -31,11 +30,11 @@ var enemyHeight = 258;
 var enemyWidth = 180;
 var playerWidth = 188;
 var playerHeight = 150;
-var playerData = {
+/*var playerData = {
 	pos: player.getBoundingClientRect(),
 	width: player.getBoundingClientRect().right - screen.getBoundingClientRect().left,
 	height: player.getBoundingClientRect().bottom - screen.getBoundingClientRect().top
-}
+}*/
 var gameScreen = {
 	pos: screen.getBoundingClientRect(),
 	width: screen.getBoundingClientRect().right - screen.getBoundingClientRect().left,
@@ -54,7 +53,7 @@ function Player(paramPosX, paramPosY){
   this.attacks = false;
 }
 
-function setPlayerLives(value){
+Game.prototype.setPlayerLives = function(value){
 	for (i=0;i<value;i++){
 		var lives = document.createElement('div');
 		document.getElementById('gameScreen').appendChild(lives);
@@ -63,32 +62,40 @@ function setPlayerLives(value){
 		lives.setAttribute("class", "liveOn");
 	}
 }
-function Object(id, paramPosX, paramPosY, value,type){
+function Object(id, paramPosX, paramPosY, value,type,objectW, objectH){
 	this.id = id;
 	this.x = paramPosX;
 	this.y = paramPosY;
-	this.width = objectWidth;
-	this.height = objectHeight;
+	this.width = objectW;
+	this.height = objectH;
 	this.value = value;
 	this.type = type;
+	this.currentDistance;
   }
 
-  function spawnObjects(diamonds, enemies){
+Object.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+  Game.prototype.spawnObjects = function(diamonds, enemies){
 	  var object;
 	  var enemyId = 'enemy';
 	//diamonds spawn
 	for(i=0; i<diamonds;i++){
-		object = new Object(i, random5000(),gameScreen.height-objectHeight*2,5,'diamond');
+		var objX = random5000();
+		object = new Object(i, objX,gameScreen.height-objectHeight*2,5,'diamond');
+		object.currentDistance = objX; 
 		game.objects.push(object);
 	}
 	//Enemies spawn
 	for(i=0; i<enemies;i++){
-		object = new Object(enemyId + i, random5000(),gameScreen.height-enemyHeight,500,'enemy');
+		var objX = random5000();
+		object = new Object(enemyId + i, objX,gameScreen.height-enemyHeight,500,'enemy');
+		object.currentDistance = objX; 
 		game.objects.push(object);
 	}	
   }
 
-  function drawObjects(){
+  Game.prototype.drawObjects = function(){
 	game.objects.forEach(object => {
 		if(object.type == 'diamond'){
 			document.getElementById("objects").innerHTML += '<div id="' + object.id + '" class="diamond"></div>';
@@ -104,16 +111,8 @@ function Game(player, enemies, objects, score){
 	this.objects = [];
 	this.score = 0;
 }
-/*function checkCollision(a,b){ //identifica si se chocan las figuras
-    return !(
-        ((a.y + a.height) < (b.y)) ||
-        (a.y > (b.y + b.height)) ||
-        ((playerScreenXPos + a.width) < b.x) ||
-        (playerScreenXPos > (b.x + b.width))
-    );	  
-}*/
 
-function updatePlayerStatus(value){
+Game.prototype.updatePlayerStatus = function(value){
 	var score = game.player.score += value;
 	document.getElementById('score').innerHTML = 'Score: ' + score;
 }
@@ -139,18 +138,23 @@ function checkCollision(div1, div2) {
   }
 
 Game.prototype.drawScene = function(){
+	var player = document.getElementById('player');
 	player.className = "player playerIddleRight";
-	player.style.transform += "translate(" + (playerScreenXPos - (playerWidth)) + "px, " + (game.player.y - playerHeight) + "px)";
-	this.objects.forEach(object => {
-		document.getElementById(object.id).style.transform += "translate(" + (object.x) + "px, " + (object.y) + "px)";
+	player.style.transform = "translate(" + (playerScreenXPos - (playerWidth)) + "px, " + (game.player.y - playerHeight) + "px)";
+	game.objects.forEach(object => {
+		document.getElementById(object.id).style.transform = "translate(" + (object.currentDistance) + "px, " + (object.y) + "px)";
 	});
+		
+
 }
 
 Game.prototype.enemyMoves = function(){
 	
 		game.objects.forEach(object => {
-			if(object.type == 'enemy'){
-				document.getElementById(object.id).style.transform += "translateX(" + (-modifDistance*1.1) + "px)";
+			if(game.player.alive && object.type == 'enemy'){
+				object.currentDistance -= modifDistance*1.1;
+				//object.x -= modifDistance*1.1;
+				document.getElementById(object.id).style.transform = "translate(" + (object.currentDistance) + "px, " + (gameScreen.height - enemyHeight) + "px)";
 			}
 		});
 }
@@ -175,17 +179,17 @@ Game.prototype.gameLoop = function(){
 			foreground.style.backgroundPosition = bgTrees + "px bottom";
 			if (game.objects.length>0){
 				game.objects.forEach(object => {
-					if(game.player.x<object.x){
+					if(game.player.x<object.currentDistance){
 					
-						object.x -= modifDistance;
-						
-						document.getElementById(object.id).style.transform += "translateX(" + (-modifDistance) + "px)";
+						//object.x -= modifDistance;
+						object.currentDistance -= modifDistance;
+						document.getElementById(object.id).style.transform = "translate(" + (object.currentDistance) + "px, " + (object.y) + "px)";
 					}
 					else{
 					
-						object.x += modifDistance;
-					
-						document.getElementById(object.id).style.transform += "translateX(" + (-modifDistance) + "px)";
+						//object.x -= modifDistance;
+						object.currentDistance -= modifDistance;
+						document.getElementById(object.id).style.transform = "translate(" + (object.currentDistance) + "px, " + (object.y) + "px)";
 					}
 				});	
 			}		
@@ -210,14 +214,16 @@ Game.prototype.gameLoop = function(){
 			foreground.style.backgroundPosition = bgTrees + "px bottom";
 			if (game.objects.length>0){
 				game.objects.forEach(object => {
-					if(game.player.x<object.x){
+					if(game.player.x<object.currentDistance){
 					
-						object.x += modifDistance;		
-						document.getElementById(object.id).style.transform += "translateX(" + modifDistance + "px)";
+						//object.x += modifDistance;	
+						object.currentDistance += modifDistance;	
+						document.getElementById(object.id).style.transform = "translate(" + (object.currentDistance) + "px, " + (object.y) + "px)";
 					}
 					else{
-						object.x -= modifDistance;
-						document.getElementById(object.id).style.transform += "translateX(" + modifDistance + "px)";
+						//object.x += modifDistance;
+						object.currentDistance += modifDistance;	
+						document.getElementById(object.id).style.transform = "translate(" + (object.currentDistance) + "px, " + (object.y) + "px)";
 					}
 				});
 			}	
@@ -262,7 +268,7 @@ Game.prototype.gameLoop = function(){
 			str = object.id;
 			if(checkCollision('playerBoundingBox', str)){
 				if(object.type == 'diamond'){
-					updatePlayerStatus(object.value); //actualiza el puntaje
+					game.updatePlayerStatus(object.value); //actualiza el puntaje
 					objectPick.pause();
 					objectPick.currentTime = 0;
 					objectPick.play();
@@ -276,8 +282,6 @@ Game.prototype.gameLoop = function(){
 						game.objects.forEach(element => {
 							document.getElementById(element.id).className = "enemyFreezes";	// congelo a todos los monstruos
 						});
-						
-						playerLives--;
 						game.player.alive = false;
 						hurt.play();
 						death.play();
@@ -286,8 +290,16 @@ Game.prototype.gameLoop = function(){
 						monsterDies.currentTime = 0;						
 						music.currentTime = 0;
 						document.getElementById('gameScreen').className += " gameOver";
+						if(game.player.lives>0){
+							playerLives--;
+							game.player.lives--;
+							restartGame();
+						}
+						else{
+							alert('game over');
+						}
 					} else {
-						updatePlayerStatus(object.value); //el monstruo me da puntaje
+						game.updatePlayerStatus(object.value); //el monstruo me da puntaje
 						monsterDies.pause();
 						monsterDies.currentTime = 0;
 						monsterDies.play();
@@ -312,15 +324,76 @@ function random(){
 function random5000(){
 	return Math.floor((Math.random() * 5000) + 500);;
 }
+
+function restartGame(){
+	if (checkGameOver == true){
+		document.getElementById('gameScreen').innerHTML = " ";
+	}
+	else{
+		setTimeout(function () {
+			document.getElementById('gameScreen').className = "gameScreen";
+			document.getElementById('objects').innerHTML = " ";
+			game.objects = [];
+			/*game.player.x = gameScreen.width/2;
+			game.player.y = gameScreen.height;
+			gameScreen.width/2, gameScreen.height
+			*/
+			game.player.x = gameScreen.width/2;
+			game.player.y = gameScreen.height;
+			playerScreenXPos = gameScreen.width/2;
+			game.player.alive = true;
+			player.className = "player playerIddleRight";
+			//player.style.transform = "translate(" + (gameScreen.width/2 - playerWidth) + "px, " + (game.player.y - playerHeight) + "px)";
+			game.spawnObjects(random(), 5);
+			game.drawObjects();	
+			player.style.transform = "translate(" + (playerScreenXPos - (playerWidth)) + "px, " + (game.player.y - playerHeight) + "px)";
+			game.objects.forEach(object => {
+				document.getElementById(object.id).style.transform = "translate(" + (object.x) + "px, " + (object.y) + "px)";
+			});
+			game.gameLoop();	
+
+		}, 5000);
+	}
+}
+
+function prepareScenario(){
+	document.getElementById('gameScreen').innerHTML = " ";
+	var foregroundDiv = document.createElement('div');
+	var playerDiv = document.createElement('div');
+	var boundingBoxDiv = document.createElement('div');
+	var objectsDiv = document.createElement('div');
+	var scoreDiv = document.createElement('div');
+	document.getElementById('gameScreen').appendChild(foregroundDiv);
+	foregroundDiv.setAttribute("id", "foreground");
+	foregroundDiv.setAttribute("class", "foreground");
+	document.getElementById('gameScreen').appendChild(playerDiv);
+	playerDiv.setAttribute("id", "player");
+	playerDiv.setAttribute("class", "player");
+	document.getElementById('player').appendChild(boundingBoxDiv);
+	boundingBoxDiv.setAttribute("id", "playerBoundingBox");
+	document.getElementById('gameScreen').appendChild(objectsDiv);
+	objectsDiv.setAttribute("id", "objects");
+	document.getElementById('gameScreen').appendChild(scoreDiv);
+	scoreDiv.setAttribute("id", "score");		
+	scoreDiv.innerHTML = "Score: 0";
+
+}
+
+function checkGameOver(){
+	if(game.player.lives <= 0) return true;
+	else return false;
+}
+
 function startGame(e){
+	prepareScenario();
 	game = new Game();
-	spawnObjects(random(), 5);
 	//music.play();
-	drawObjects();
-	setPlayerLives(playerLives);
-	game.drawScene();
-	game.enemyMoves();
+	game.setPlayerLives(playerLives);
+	game.spawnObjects(random(), 5); //Creo diamantes y enemigos
+	game.drawObjects(); // Los agrego al DOM
+	game.drawScene();	
 	game.gameLoop();
+
 	window.setInterval(function(){
 		if (game.player.alive){
 			game.enemyMoves();
@@ -332,7 +405,7 @@ function startGame(e){
 
 
 function updateConsole(){
-	//console.log("top: " + gameScreen.pos.top, ", right: " + gameScreen.pos.right, "bottom: " + gameScreen.pos.bottom,"left: " + gameScreen.pos.left);
+
 	//console.log("width: " + gameScreen.width, ", height: " + gameScreen.height);
 	//console.log("I'm the player, my pos is (" + game.player.x + ", " + game.player.y + "), and I have " + game.player.lives + " lives.");
 	//console.log("I'm d" + game.objects[0].id + ", my pos is (" + game.objects[0].x + ", " + game.objects[0].y + "), and my value is " +game.objects[0].value + ".");

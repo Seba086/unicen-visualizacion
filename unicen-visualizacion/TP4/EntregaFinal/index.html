@@ -2,24 +2,60 @@
 <html>
 <head>
 	<title>¡¡¡Play Games Online!!!</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/estilos.css">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<div id="content" class="content">
 		<div id="gameScreen" class="gameScreen">
+			<div class="container-fluid text-center">
+				<div class="row text-center">
+					<div class="spacer"></div>
+					<div class="col-lg-12 col-md-12 col-sm-12 title">
+						<h1>Knight Warrior</h1>
+						<div class="player playerIddleRight"></div>
+						<button id="start" class="btn btn-primary" type="submit">Comenzar</button>
+						<button id="#instructions" type="button" class="btn btn-primary" data-toggle="modal" data-target="#instructions">Instrucciones</button>
+								<!-- Modal -->
+								<div class="modal fade" id="instructions" role="dialog">
+										<div class="modal-dialog">
+										
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Knight Warrior</h4>
+											</div>
+											<div class="modal-body">
+											<h4>Recoge diamantes y elimina a tus caballeros oscuros</h4>
+											<h4><button type="button" class="btn btn-default">A</button><span> Camina hacia tu izquierda</span></h4>
+											<h4><button type="button" class="btn btn-default">D</button><span> Camina hacia tu derecha</span></h4>
+											<h4><button type="button" class="btn btn-default">Ctrl</button><span> Atacar</span></h4>
+											</div>
+											<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Entendido</button>
+											</div>
+										</div>
+										
+										</div>
+									</div>
+					</div>
+				</div>
+			</div>
+
+			</div>
 			
-			
-			<div id="foreground" class="foreground"></div>
-					
-			
-			<div id="player"><div id="playerBoundingBox"></div></div>
-			<div id="objects"></div>
-			<div id="score">Score: 0</div>
+
 		</div>
-	</div>
 
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 <script src="js/jquery-3.2.1.js"></script>
 <script src="js/actions.js"></script>
